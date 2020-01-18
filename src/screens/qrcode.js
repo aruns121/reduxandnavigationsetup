@@ -10,7 +10,7 @@ class QrcodeScreen extends Component {
 }
 
 barcodeRecognized = ({ data }) => {
-  console.log(data[43]);
+  console.log(data);
   console.log(typeof(data));
       if(data !== null && data !== undefined && data[0]==='x'&& data[1]==='y'&& data[2]==='z'){
         alert("Access Granted!");
