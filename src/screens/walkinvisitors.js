@@ -30,7 +30,7 @@ class WalkinVisitorsScreen extends Component {
                 <View style={{flex:1,alignItems:'center',justifyContent:'flex-start'}}>
                         <Button
                         title="Log"
-                       
+                        onPress={() => this.props.navigation.navigate('DetaisListScreen')}
                         />
                 </View>  
           </View>

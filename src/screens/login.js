@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import { View, Text, Button, TextInput } from 'react-native';
 
-
 class LoginScreen extends Component {
     render() {
         return (
@@ -35,7 +34,5 @@ class LoginScreen extends Component {
         );
       }
     }
-
-
 
 export default LoginScreen;

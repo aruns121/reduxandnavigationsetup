@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import { View, Text } from 'react-native';
 
-
 class FullDetaisScreen extends Component {
   render() {
     return (
@@ -11,7 +10,5 @@ class FullDetaisScreen extends Component {
     );
   }
 }
-
-
 
 export default FullDetaisScreen;
