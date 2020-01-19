@@ -29,7 +29,7 @@ const MainNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'WalkinVisitorsScreen',
+    initialRouteName: 'LoginScreen',
     headerMode: 'none',
   },
 );

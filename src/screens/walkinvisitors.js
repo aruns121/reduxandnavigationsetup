@@ -24,7 +24,9 @@ class WalkinVisitorsScreen extends Component {
       errors: {},
       isLoading: false,
     };
-    this.ref = firebase.database().ref(`/users/${auth().currentUser.uid}`);
+    let userId = auth().currentUser.uid && auth().currentUser.uid;
+    console.log('auth().currentUser.uid', auth().currentUser.uid);
+    this.ref = firebase.database().ref(`/users/${userId}`);
   }
 
   changeTextinputContent = (item, val) => {
