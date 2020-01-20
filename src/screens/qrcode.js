@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
 class QrcodeScreen extends Component {
@@ -20,24 +20,34 @@ class QrcodeScreen extends Component {
       data[2] === 'z'
     ) {
       alert('Access Granted!');
-      this.props.navigation.navigate('DetaisListScreen');
+      this.props.navigation.navigate('HomeScreen');
     } else {
-      alert('Access Denined!');
-      this.props.navigation.navigate('QrcodeScreen');
+      alert('Access Denied!');
     }
   };
 
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>QR Scanning</Text>
-        <RNCamera
-          ref={this._RNCameraRef}
-          type={RNCamera.Constants.Type.back}
-          captureAudio={false}
-          //  notAuthorizedView={<PendingView />}
-          style={styles.RNCameraStyles}
-          onBarCodeRead={this.barcodeRecognized}></RNCamera>
+         <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+           <Text>QR Scanning</Text>
+        </View>
+      
+          <RNCamera
+            ref={this._RNCameraRef}
+            type={RNCamera.Constants.Type.back}
+            captureAudio={false}
+            //  notAuthorizedView={<PendingView />}
+            style={styles.RNCameraStyles}
+            onBarCodeRead={this.barcodeRecognized}>
+          </RNCamera>
+    
+        <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+           <TouchableOpacity style={styles.Button}
+              onPress={() => this.props.navigation.navigate('HomeScreen')}>  
+              <Text style={styles.text}>Go Back To HomeScreen</Text>
+          </TouchableOpacity>   
+        </View>
       </View>
     );
   }
@@ -49,4 +59,20 @@ const styles = StyleSheet.create({
     width: '70%',
     height: '40%',
   },
+  Button: {
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:1,
+    borderColor:"#464B55",
+    width:300,
+    height:52,
+    backgroundColor:'#047EE3',
+    borderRadius: 10,
+},
+
+text: {
+  color: 'white',
+   fontSize:17
+},
+
 });

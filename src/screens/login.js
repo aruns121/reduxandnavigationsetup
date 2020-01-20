@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {
-  View,
-  Text,
-  Button,
+  View,Text,
   TextInput,
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  StyleSheet,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import {firebase} from '@react-native-firebase/auth';
 import Loader from '../component/Loader';
+
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -89,90 +91,49 @@ class LoginScreen extends Component {
   render() {
     const {email, password, errors, isLoading} = this.state;
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          paddingTop: Platform.OS === 'android' ? 25 : 0,
-        }}>
+      <SafeAreaView style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 0,}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
             <Loader loading={isLoading} />
-            <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>Login</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <TextInput
-                  value={email}
-                  onChangeText={text =>
-                    this.changeTextinputContent('email', text)
-                  }
-                  style={{
-                    height: 57,
-                    width: 320,
-                    borderColor: 'black',
-                    borderWidth: 1,
-                  }}
-                  placeholder="Username"
-                />
-                {errors.email ? (
-                  <Text style={{color: 'red', paddingTop: 5}}>
-                    {errors.email}
-                  </Text>
-                ) : null}
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
-                <TextInput
-                  value={password}
-                  onChangeText={text =>
-                    this.changeTextinputContent('password', text)
-                  }
-                  style={{
-                    height: 57,
-                    width: 320,
-                    borderColor: 'black',
-                    borderWidth: 1,
-                  }}
-                  placeholder="Password"
-                  secureTextEntry
-                />
-                {errors.password ? (
-                  <Text style={{color: 'red', paddingTop: 5}}>
-                    {errors.password}
-                  </Text>
-                ) : null}
-              </View>
-              {/* <View style={{flex:1,alignItems:'center',justifyContent:'flex-start'}}>
-                <Text>{this.state.error}</Text>
-                </View> */}
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
-                <Button
-                  title="Login"
-                  onPress={this.authenticate}
-                  // onPress={() => this.props.navigation.navigate('HomeScreen')}
-                />
-              </View>
+            <View style={styles.container}>
+           
+                <View style={styles.container1}>
+                    <View style={styles.TextInput}>
+                      <Image style={styles.image} resizeMode='stretch' source={require('../../assets/images/users.jpg')}/>
+                        <TextInput style={{flex:1,paddingLeft:20}}
+                         onChangeText={ text => this.changeTextinputContent('email', text) }
+                          value={email}  
+                          placeholder="Username"/>
+                    </View>      
+                            {errors.email ? (
+                              <Text style={{color: 'red', paddingTop: 5}}>
+                                {errors.email}
+                              </Text>
+                            ) : null}
+                </View>
+                
+                <View style={styles.container2}>
+                    <View style={styles.TextInput}>
+                      <Image style={styles.image} resizeMode='stretch' source={require('../../assets/images/lock.jpg')}/>
+                        <TextInput  style={{flex:1,paddingLeft:20}}
+                          onChangeText={text => this.changeTextinputContent('password', text) } 
+                          value={password} 
+                          placeholder="Password"
+                          secureTextEntry />
+                    </View>      
+                          {errors.password ? (
+                            <Text style={{color: 'red', paddingTop: 5}}>
+                              {errors.password}
+                            </Text>
+                          ) : null}
+                </View>
+    
+                <View style={styles.container3}>
+                  <TouchableOpacity style={styles.Button}
+                    onPress={this.authenticate}>
+                      <Text style={styles.text}>Login</Text> 
+                  </TouchableOpacity>
+                </View>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
@@ -182,3 +143,62 @@ class LoginScreen extends Component {
 }
 
 export default LoginScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  
+  container1: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+  container3: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingBottom:40
+  },
+
+  Button: {
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:1,
+    borderColor:"#464B55",
+    width:320,
+    height:52,
+    backgroundColor:'#047EE3',
+    borderRadius: 10,
+},
+
+  text: {
+    color: 'white',
+     fontSize:17
+  },
+
+TextInput: {
+  paddingLeft:10,
+  alignItems:'center',
+  flexDirection:'row',
+  height: 57,
+  width: 320,
+  borderColor:"#464B55",
+  borderWidth: 1,
+  borderRadius: 10,
+},
+
+image: {
+   width:30,
+   height:30
+  }
+  
+});

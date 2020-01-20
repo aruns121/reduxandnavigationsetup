@@ -8,6 +8,8 @@ import {
   ScrollView,
   SafeAreaView,
   Platform,
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/database';
@@ -66,6 +68,7 @@ class WalkinVisitorsScreen extends Component {
   onSuccess = () => {
     this.setState({isLoading: false, name: '', phoneNo: '', idNo: ''});
     alert('New user Added');
+    this.props.navigation.navigate('HomeScreen')
   };
 
   isValid = () => {
@@ -103,38 +106,19 @@ class WalkinVisitorsScreen extends Component {
   render() {
     const {errors, isLoading, name, phoneNo, idNo} = this.state;
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          paddingTop: Platform.OS === 'android' ? 25 : 0,
-        }}>
+      <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 0,}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
             <Loader loading={isLoading} />
-            <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>walkin visitors</Text>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <View style={styles.container1}>
+                <Text>Walkin Visitors</Text>
               </View>
               <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                }}>
+                style={styles.container2}>
                 <TextInput
                   value={name}
-                  style={{
-                    height: 57,
-                    width: 320,
-                    borderColor: 'black',
-                    borderWidth: 1,
-                  }}
+                  style={styles.TextInputfield}
                   placeholder="Name"
                   onChangeText={text =>
                     this.changeTextinputContent('name', text)
@@ -147,19 +131,10 @@ class WalkinVisitorsScreen extends Component {
                 ) : null}
               </View>
               <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                style={styles.container3}>
                 <TextInput
                   value={phoneNo}
-                  style={{
-                    height: 57,
-                    width: 320,
-                    borderColor: 'black',
-                    borderWidth: 1,
-                  }}
+                  style={styles.TextInputfield}
                   keyboardType="phone-pad"
                   placeholder="Phone"
                   onChangeText={text =>
@@ -173,19 +148,10 @@ class WalkinVisitorsScreen extends Component {
                 ) : null}
               </View>
               <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
+                style={styles.container4}>
                 <TextInput
                   value={idNo}
-                  style={{
-                    height: 57,
-                    width: 320,
-                    borderColor: 'black',
-                    borderWidth: 1,
-                  }}
+                  style={styles.TextInputfield}
                   placeholder="ID No"
                   onChangeText={text =>
                     this.changeTextinputContent('idNo', text)
@@ -198,16 +164,11 @@ class WalkinVisitorsScreen extends Component {
                 ) : null}
               </View>
               <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
-                <Button
-                  title="Log"
-                  //     onPress={() => this.props.navigation.navigate('DetaisListScreen')}
-                  onPress={() => this.addUser()}
-                />
+                style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.Button}
+                  onPress={() => this.addUser()}>
+                    <Text style={styles.text}>Log</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </KeyboardAvoidingView>
@@ -218,3 +179,60 @@ class WalkinVisitorsScreen extends Component {
 }
 
 export default WalkinVisitorsScreen;
+const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+
+  container3: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  container4: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+
+  TextInputfield: {
+    paddingLeft:30,
+    height: 57,
+    width: 320,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius:10
+  },
+
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+
+  Button: {
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:1,
+    borderColor:"#464B55",
+    width:320,
+    height:52,
+    backgroundColor:'#047EE3',
+    borderRadius: 10,
+},
+
+text: {
+  color: 'white',
+   fontSize:17
+},
+  
+});
