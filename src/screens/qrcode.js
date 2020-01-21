@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {firebase} from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
@@ -78,30 +78,36 @@ class QrcodeScreen extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-         <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-           <Text>QR Scanning</Text>
-        </View>
-        <TouchableOpacity style={styles.Button} onPress={this.changeCameraType}>
-          <Text style={styles.text}>Switch Camera</Text>
-        </TouchableOpacity>
-      
-        <RNCamera
-            ref={this._RNCameraRef}
-            type={this.state.cameraType}
-            captureAudio={false}
-            style={styles.RNCameraStyles}
-            onBarCodeRead={this.barcodeRecognized}
-            mirrorImage={this.state.mirrorMode}></RNCamera>
-    
-       
-           <TouchableOpacity style={styles.Button}
-              onPress={() => this.props.navigation.navigate('HomeScreen')}>  
-              <Text style={styles.text}>Go Back To HomeScreen</Text>
-          </TouchableOpacity>   
-     
-     
-      </View>
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex:.5,alignItems:'center',justifyContent:'center'}}>
+              <Text>QR Scanning</Text>
+            </View>
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <TouchableOpacity style={styles.Button} onPress={this.changeCameraType}>
+                  <Text style={styles.text}>Switch Camera</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{width:400,height:300,alignItems:'center',justifyContent:'center'}}>
+              <RNCamera
+                  ref={this._RNCameraRef}
+                  type={this.state.cameraType}
+                  captureAudio={false}
+                  style={styles.RNCameraStyles}
+                  onBarCodeRead={this.barcodeRecognized}
+                  mirrorImage={this.state.mirrorMode}>
+                <Image style={{ width:100,height:100}} resizeMode='stretch' source={require('../../assets/images/qr.jpg')}/>  
+              </RNCamera>
+            </View>
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+              <TouchableOpacity style={styles.Button}
+                  onPress={() => this.props.navigation.navigate('HomeScreen')}>  
+                  <Text style={styles.text}>Go Back To HomeScreen</Text>
+              </TouchableOpacity>   
+            </View>   
+        
+          </View>
+      </ScrollView>
     );
   }
 }
@@ -109,8 +115,11 @@ class QrcodeScreen extends Component {
 
 const styles = StyleSheet.create({
   RNCameraStyles: {
-    width: '70%',
-    height: '40%',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    width: '50%',
+    height: '50%',
   },
   Button: {
     alignSelf:'center',
