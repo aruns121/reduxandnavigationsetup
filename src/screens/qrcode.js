@@ -12,7 +12,10 @@ class QrcodeScreen extends Component {
         name: '',
         isLoading: false,
         barCodeRead: true,
-      };
+      
+      cameraType: RNCamera.Constants.Type.back,
+      mirrorMode: false,
+    };
     this._RNCameraRef = React.createRef();
     let userId = auth().currentUser.uid && auth().currentUser.uid;
     this.ref = firebase.database().ref(`/barcode/${userId}`);
@@ -59,40 +62,58 @@ class QrcodeScreen extends Component {
    
   };
 
+  changeCameraType = () => {
+    if (this.state.cameraType === RNCamera.Constants.Type.back) {
+      this.setState({
+        cameraType: RNCamera.Constants.Type.front,
+        mirrorMode: true,
+      });
+    } else {
+      this.setState({
+        cameraType: RNCamera.Constants.Type.back,
+        mirrorMode: false,
+      });
+    }
+  };
+
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
            <Text>QR Scanning</Text>
         </View>
+        <TouchableOpacity style={styles.Button} onPress={this.changeCameraType}>
+          <Text style={styles.text}>Switch Camera</Text>
+        </TouchableOpacity>
       
-          <RNCamera
+        <RNCamera
             ref={this._RNCameraRef}
-            type={RNCamera.Constants.Type.back}
+            type={this.state.cameraType}
             captureAudio={false}
-            //  notAuthorizedView={<PendingView />}
             style={styles.RNCameraStyles}
-            onBarCodeRead={this.barcodeRecognized}>
-          </RNCamera>
+            onBarCodeRead={this.barcodeRecognized}
+            mirrorImage={this.state.mirrorMode}></RNCamera>
     
-        <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+       
            <TouchableOpacity style={styles.Button}
               onPress={() => this.props.navigation.navigate('HomeScreen')}>  
               <Text style={styles.text}>Go Back To HomeScreen</Text>
           </TouchableOpacity>   
-        </View>
+     
+     
       </View>
     );
   }
 }
 
-export default QrcodeScreen;
+
 const styles = StyleSheet.create({
   RNCameraStyles: {
     width: '70%',
     height: '40%',
   },
   Button: {
+    alignSelf:'center',
     alignItems:'center',
     justifyContent:'center',
     borderWidth:1,
@@ -109,3 +130,4 @@ text: {
 },
 
 });
+export default QrcodeScreen;
