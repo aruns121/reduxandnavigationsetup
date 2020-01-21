@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
 class QrcodeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      cameraType: RNCamera.Constants.Type.back,
+      mirrorMode: false,
+    };
     this._RNCameraRef = React.createRef();
   }
 
@@ -27,17 +30,36 @@ class QrcodeScreen extends Component {
     }
   };
 
+  changeCameraType = () => {
+    if (this.state.cameraType === RNCamera.Constants.Type.back) {
+      this.setState({
+        cameraType: RNCamera.Constants.Type.front,
+        mirrorMode: true,
+      });
+    } else {
+      this.setState({
+        cameraType: RNCamera.Constants.Type.back,
+        mirrorMode: false,
+      });
+    }
+  };
+
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>QR Scanning</Text>
-        <RNCamera
-          ref={this._RNCameraRef}
-          type={RNCamera.Constants.Type.back}
-          captureAudio={false}
-          //  notAuthorizedView={<PendingView />}
-          style={styles.RNCameraStyles}
-          onBarCodeRead={this.barcodeRecognized}></RNCamera>
+      <View style={{flex: 1, padding: '10%'}}>
+        <TouchableOpacity style={styles.Button} onPress={this.changeCameraType}>
+          <Text style={styles.text}>Switch Camera</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text>QR Scanning</Text>
+          <RNCamera
+            ref={this._RNCameraRef}
+            type={this.state.cameraType}
+            captureAudio={false}
+            style={styles.RNCameraStyles}
+            onBarCodeRead={this.barcodeRecognized}
+            mirrorImage={this.state.mirrorMode}></RNCamera>
+        </View>
       </View>
     );
   }
@@ -48,5 +70,20 @@ const styles = StyleSheet.create({
   RNCameraStyles: {
     width: '70%',
     height: '40%',
+  },
+  Button: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#464B55',
+    width: 200,
+    height: 40,
+    backgroundColor: '#047EE3',
+    borderRadius: 10,
+  },
+  text: {
+    color: 'white',
+    fontSize: 17,
   },
 });
