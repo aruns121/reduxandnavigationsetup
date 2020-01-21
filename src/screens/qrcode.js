@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaVie
 import {RNCamera} from 'react-native-camera';
 import {firebase} from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
-
+import Loader from '../component/Loader';
 
 class QrcodeScreen extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class QrcodeScreen extends Component {
   barcodeRecognized = ({data}) => {
     // console.log(data);
     // console.log(typeof(data)); 
-    if(this.state.barCodeRead===true){
+    if(this.state.barCodeRead===true,this.state.isLoading===false){
       if (
         data !== null &&
         data !== undefined &&
@@ -57,7 +57,7 @@ class QrcodeScreen extends Component {
           this.props.navigation.navigate('HomeScreen');
             // console.log(data);
         }
-        this.setState({barCodeRead: false});
+        this.setState({barCodeRead: false,isLoading:true});
     }
    
   };
@@ -77,9 +77,11 @@ class QrcodeScreen extends Component {
   };
 
   render() {
+    const { isLoading } = this.state;
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 0,}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <Loader loading={isLoading} />
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
               <View style={{flex:.5,alignItems:'center',justifyContent:'center'}}>
                 <Text>QR Scanning</Text>
