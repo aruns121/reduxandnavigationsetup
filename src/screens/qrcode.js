@@ -1,29 +1,62 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import {firebase} from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
+
 
 class QrcodeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+      this.state = {
+        name: '',
+        isLoading: false,
+        barCodeRead: true,
+      };
     this._RNCameraRef = React.createRef();
+    let userId = auth().currentUser.uid && auth().currentUser.uid;
+    this.ref = firebase.database().ref(`/barcode/${userId}`);
   }
 
   barcodeRecognized = ({data}) => {
     // console.log(data);
-    // console.log(typeof(data));
-    if (
-      data !== null &&
-      data !== undefined &&
-      data[0] === 'x' &&
-      data[1] === 'y' &&
-      data[2] === 'z'
-    ) {
-      alert('Access Granted!');
-      this.props.navigation.navigate('HomeScreen');
-    } else {
-      alert('Access Denied!');
+    // console.log(typeof(data)); 
+    if(this.state.barCodeRead===true){
+      if (
+        data !== null &&
+        data !== undefined &&
+        data[0] === 'x' &&
+        data[1] === 'y' &&
+        data[2] === 'z'
+      ) {
+          let barcodedata = {
+            name: data,
+          }
+          this.setState({isLoading: true});
+          this.ref
+            .push(barcodedata)
+            .then(() => {
+              // alert('success');
+              this.setState({isLoading: false, name: ''});
+              // console.log(data);
+            })
+            .catch(error => {
+              this.setState({isLoading: false});
+
+              alert(error.message);
+            });
+
+          alert('Access Granted!');
+          this.props.navigation.navigate('HomeScreen');   
+        } 
+        else {
+          alert('Access Denied!');
+          this.props.navigation.navigate('HomeScreen');
+            // console.log(data);
+        }
+        this.setState({barCodeRead: false});
     }
+   
   };
 
   render() {
