@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Platform,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/database';
@@ -38,12 +38,11 @@ class WalkinVisitorsScreen extends Component {
 
   addUser = () => {
     const {name, phoneNo, idNo} = this.state;
+    const universal = new Date();
+    const date = universal.toString();
     if (this.isValid()) {
       let data = {
-        //     name: 'test',
-        //     phoneNo: '987456123',
-        //     id: 'avc1245e',
-
+        logTime: date,
         name: name,
         phoneNo: phoneNo,
         id: idNo,
@@ -65,9 +64,14 @@ class WalkinVisitorsScreen extends Component {
   };
 
   onSuccess = () => {
-    this.setState({isLoading: false, name: '', phoneNo: '', idNo: ''});
+    this.setState({
+      isLoading: false,
+      name: '',
+      phoneNo: '',
+      idNo: '',
+    });
     alert('New user Added');
-    this.props.navigation.navigate('HomeScreen')
+    this.props.navigation.navigate('HomeScreen');
   };
 
   isValid = () => {
@@ -103,18 +107,20 @@ class WalkinVisitorsScreen extends Component {
   };
 
   render() {
+    console.log(new Date());
     const {errors, isLoading, name, phoneNo, idNo} = this.state;
     return (
-      <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 0,}}>
+      <SafeAreaView
+        style={{flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 0}}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
             <Loader loading={isLoading} />
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View
+              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
               <View style={styles.container1}>
                 <Text>Walkin Visitors</Text>
               </View>
-              <View
-                style={styles.container2}>
+              <View style={styles.container2}>
                 <TextInput
                   value={name}
                   style={styles.TextInputfield}
@@ -129,8 +135,7 @@ class WalkinVisitorsScreen extends Component {
                   </Text>
                 ) : null}
               </View>
-              <View
-                style={styles.container3}>
+              <View style={styles.container3}>
                 <TextInput
                   value={phoneNo}
                   style={styles.TextInputfield}
@@ -146,8 +151,7 @@ class WalkinVisitorsScreen extends Component {
                   </Text>
                 ) : null}
               </View>
-              <View
-                style={styles.container4}>
+              <View style={styles.container4}>
                 <TextInput
                   value={idNo}
                   style={styles.TextInputfield}
@@ -162,11 +166,11 @@ class WalkinVisitorsScreen extends Component {
                   </Text>
                 ) : null}
               </View>
-              <View
-                style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.Button}
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.Button}
                   onPress={() => this.addUser()}>
-                    <Text style={styles.text}>Log</Text>
+                  <Text style={styles.text}>Log</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -204,12 +208,12 @@ const styles = StyleSheet.create({
   },
 
   TextInputfield: {
-    paddingLeft:30,
+    paddingLeft: 30,
     height: 57,
     width: 320,
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius:10
+    borderRadius: 10,
   },
 
   buttonContainer: {
@@ -219,19 +223,18 @@ const styles = StyleSheet.create({
   },
 
   Button: {
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:1,
-    borderColor:"#464B55",
-    width:320,
-    height:52,
-    backgroundColor:'#047EE3',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#464B55',
+    width: 320,
+    height: 52,
+    backgroundColor: '#047EE3',
     borderRadius: 10,
-},
+  },
 
-text: {
-  color: 'white',
-   fontSize:17
-},
-  
+  text: {
+    color: 'white',
+    fontSize: 17,
+  },
 });
