@@ -31,7 +31,9 @@ class LoginScreen extends Component {
   };
 
   authenticate = () => {
-    const {email, password} = this.state;
+    const { password} = this.state;
+    let { email} = this.state;
+    email.includes('@')?null:email=this.state.email+'@test.com' 
     // let email = 'tester@test.cc',
     // password = '123456';
     if (this.isValid()) {
@@ -75,7 +77,7 @@ class LoginScreen extends Component {
         errors.password = 'Password cannot be empty';
         valid = false;
       }
-      if (!regex.test(email) && email.length > 0) {
+      if (!regex.test(email) && email.length <2) {
         errors.email = 'Please enter a valid email';
         valid = false;
       }
