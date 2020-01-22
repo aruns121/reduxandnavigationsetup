@@ -42,7 +42,7 @@ class WalkinVisitorsScreen extends Component {
     const date = universal.toString();
     if (this.isValid()) {
       let data = {
-        logTime: date,
+        log_time: date,
         name: name,
         phoneNo: phoneNo,
         id: idNo,

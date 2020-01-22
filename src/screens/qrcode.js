@@ -44,7 +44,7 @@ class QrcodeScreen extends Component {
       ) {
         let barcodedata = {
           name: data,
-          date: date,
+          Log_time: date,
         };
         this.setState({isLoading: true});
         this.ref
